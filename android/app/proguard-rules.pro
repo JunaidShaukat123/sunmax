@@ -1,0 +1,13 @@
+# Keep classes required by ML Kit for text recognition
+-keep class com.google.mlkit.vision.** { *; }
+-keep class com.google.mlkit.vision.text.** { *; }
+-keep class com.google.mlkit.vision.text.chinese.** { *; }
+-keep class com.google.mlkit.vision.text.devanagari.** { *; }
+-keep class com.google.mlkit.vision.text.japanese.** { *; }
+-keep class com.google.mlkit.vision.text.korean.** { *; }
+-keep class com.google.mlkit.vision.text.latin.** { *; }
+-keep class com.google.mlkit.vision.text.spanish.** { *; }
+-keep class com.google.mlkit.vision.text.vietnamese.** { *; }
+-keep class com.google.mlkit.vision.text.**.internal.** { *; }
+-keep class com.google.mlkit.vision.text.**.internal.**.** { *; }
+-keep class com.google.mlkit.vision.text.**.internal.**.**.** { *; }
