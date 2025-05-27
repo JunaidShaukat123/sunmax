@@ -28,6 +28,10 @@ class AppLocalization extends GetxController {
     Future.wait([syncTranslation()]);
   }
 
+  Future<void> byPass() async {
+    await put('en', en);
+  }
+
   Future<void> syncTranslation() async {
     Box preferences = Hive.box(HiveBox.preferences);
     Language language = Language.fromBox(preferences.get('language'));
@@ -41,6 +45,7 @@ class AppLocalization extends GetxController {
         language,
         processing: false,
       );
+      return await put('en', en);
     }
   }
 

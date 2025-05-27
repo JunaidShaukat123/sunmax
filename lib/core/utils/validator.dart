@@ -60,7 +60,7 @@ class Validator {
     return null;
   }
 
-  static String? phone(String? input, {bool isRequired = true}) {
+  static String? isPhoneNumber(String? input, {bool isRequired = true}) {
     // xxx xxxx xxx
     const pattern = r'^3\d{2}-\d{7}$';
     RegExp regExp = RegExp(pattern, caseSensitive: false);
@@ -106,7 +106,7 @@ class Validator {
     }
   }
 
-  static String? password(String? input, {bool isRequired = true}) {
+  static String? isPassword(String? input, {bool isRequired = true}) {
     String lengthPattern = r'^.{8,}$';
     String alphaPattern = r'^(?=.*[a-zA-Z])';
     String digitPattern = r'^(?=.*\d)';

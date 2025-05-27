@@ -6,6 +6,8 @@ class OnboardingController extends GetxController {
   RxInt currentIndex = 0.obs;
   final pageController = PageController(initialPage: 0);
 
+  final preference = Get.find<Preference>();
+
   List onboarding = <Onboarding>[
     Onboarding(
       id: 1,
@@ -33,5 +35,31 @@ class OnboardingController extends GetxController {
     ),
   ];
 
-  void onNext() {}
+  void onPageChanged(int value) {
+    currentIndex.value = value;
+    pageController.animateToPage(
+      value,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void onSkip() {
+    preference.setOnboarding(false);
+    Get.offAllNamed(AppRoutes.become);
+  }
+
+  void onNext() {
+    if (currentIndex.value < onboarding.length - 1) {
+      currentIndex.value++;
+      pageController.animateToPage(
+        currentIndex.value,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      preference.setOnboarding(false);
+      Get.offAllNamed(AppRoutes.become);
+    }
+  }
 }

@@ -6,6 +6,8 @@ class SplashController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    String? become = preference.become;
+    String? bearer = preference.bearer;
     Language language = preference.language;
     bool onboarding = preference.onboarding;
 
@@ -16,6 +18,16 @@ class SplashController extends GetxController {
 
     if (onboarding) {
       Get.offNamed(AppRoutes.onboarding);
+      return;
+    }
+
+    if (become == null) {
+      Get.offNamed(AppRoutes.become);
+      return;
+    }
+
+    if (bearer == null) {
+      Get.offNamed(AppRoutes.signin);
       return;
     }
   }

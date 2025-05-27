@@ -90,6 +90,8 @@ class Preference extends GetxController {
 
   String? get projectId => box.get('project_id');
 
+  String? get become => box.get('become');
+
   Language get language => Language.fromBox(box.get('language'));
 
   bool isAuthorized({Map arguments = const {}}) {
@@ -193,4 +195,30 @@ class Preference extends GetxController {
   }
 
   Future<void> tryAgain() async {}
+
+  void setOnboarding(bool bool) {
+    box
+        .put('onboarding', bool)
+        .then(
+          (value) {
+            onRefresh();
+          },
+          onError: (error) {
+            console.error(error, trace);
+          },
+        );
+  }
+
+  void setBecome(String value) {
+    box
+        .put('become', value)
+        .then(
+          (value) {
+            onRefresh();
+          },
+          onError: (error) {
+            console.error(error, trace);
+          },
+        );
+  }
 }

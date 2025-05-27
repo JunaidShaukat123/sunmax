@@ -5,7 +5,11 @@ import '/core/app_export.dart';
 class OnboardingScreen extends GetWidget<OnboardingController> {
   const OnboardingScreen({super.key});
 
-  Widget page() {
+  Widget page({
+    String? imagePath,
+    required String title,
+    required String subtitle,
+  }) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
@@ -21,10 +25,10 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
           ),
         ),
         SizedBox(height: 40.h),
-        Text("msg_all_your_favorites".tr, style: theme.textTheme.headlineSmall),
+        Text(title, style: theme.textTheme.headlineSmall),
         SizedBox(height: 18.h),
         Text(
-          "msg_get_all_your_loved".tr,
+          subtitle,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.center,
@@ -39,41 +43,50 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appTheme.whiteA700,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsetsDirectional.only(
-            start: 24.h,
-            top: 36.h,
-            end: 24.h,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(height: 14.h),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "lbl_skip".tr,
-                  style: CustomTextStyles.bodyLargeBluegray600,
-                ),
+      body: Padding(
+        padding: EdgeInsetsDirectional.only(start: 24.h, top: 36.h, end: 24.h),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(height: 14.h),
+            Align(
+              alignment: Alignment.centerRight,
+              child: CustomElevatedButton(
+                width: 80.h,
+                height: 36.h,
+                text: "lbl_skip".tr,
+                onPressed: controller.onSkip,
+                buttonStyle: CustomButtonStyles.outlineGray,
+                buttonTextStyle: CustomTextStyles.bodyLargeBluegray600,
               ),
-              SizedBox(height: 14.h),
-              Expanded(
-                child: PageView.builder(
-                  itemCount: 4,
-                  scrollDirection: Axis.horizontal,
-                  controller: controller.pageController,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return page();
+            ),
+            SizedBox(height: 14.h),
+            Expanded(
+              child: PageView.builder(
+                itemCount: controller.onboarding.length,
+                scrollDirection: Axis.horizontal,
+                controller: controller.pageController,
+                physics: const BouncingScrollPhysics(),
+                onPageChanged: controller.onPageChanged,
+                itemBuilder: (context, index) {
+                  final onboarding = controller.onboarding[index];
+                  return page(
+                    title: onboarding.title,
+                    subtitle: onboarding.subtitle,
+                    imagePath: onboarding.imagePath,
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 30.h),
+            SizedBox(
+              height: 10.h,
+              child: Obx(
+                () => AnimatedSmoothIndicator(
+                  activeIndex: controller.currentIndex.value,
+                  onDotClicked: (index) {
+                    controller.onPageChanged(index);
                   },
-                ),
-              ),
-              SizedBox(height: 30.h),
-              SizedBox(
-                height: 10.h,
-                child: AnimatedSmoothIndicator(
-                  activeIndex: 0,
                   count: 4,
                   effect: ScrollingDotsEffect(
                     spacing: 12,
@@ -84,14 +97,14 @@ class OnboardingScreen extends GetWidget<OnboardingController> {
                   ),
                 ),
               ),
-              SizedBox(height: 40.h),
-              CustomElevatedButton(
-                text: "lbl_next".tr.toUpperCase(),
-                onPressed: controller.onNext,
-              ),
-              SizedBox(height: 14.h),
-            ],
-          ),
+            ),
+            SizedBox(height: 40.h),
+            CustomElevatedButton(
+              text: "lbl_next".tr.toUpperCase(),
+              onPressed: controller.onNext,
+            ),
+            SizedBox(height: 14.h),
+          ],
         ),
       ),
     );

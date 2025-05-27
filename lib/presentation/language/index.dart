@@ -20,7 +20,7 @@ class LanguageScreen extends GetWidget<LanguageController> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomImageView(
-                imagePath: ImageConstant.imgVectorStroke,
+                imagePath: ImageConstant.imgVector,
                 height: 56.h,
                 width: 108.h,
               ),

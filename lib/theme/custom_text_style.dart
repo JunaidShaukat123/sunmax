@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '/core/app_export.dart';
 
 extension on TextStyle {
@@ -15,6 +16,27 @@ extension on TextStyle {
 /// categorized by different font families and weights.
 /// Additionally, this class includes extensions on [TextStyle] to easily apply specific font families to text.
 class CustomTextStyles {
+  /// Returns the current theme's text theme.
+  static TextStyle get bodySmall => theme.textTheme.bodySmall!;
+  static TextStyle get bodyMedium => theme.textTheme.bodyMedium!;
+  static TextStyle get bodyLarge => theme.textTheme.bodyLarge!;
+
+  static TextStyle get displaySmall => theme.textTheme.displaySmall!;
+  static TextStyle get displayMedium => theme.textTheme.displayMedium!;
+  static TextStyle get displayLarge => theme.textTheme.displayLarge!;
+
+  static TextStyle get headlineSmall => theme.textTheme.headlineSmall!;
+  static TextStyle get headlineMedium => theme.textTheme.headlineMedium!;
+  static TextStyle get headlineLarge => theme.textTheme.headlineLarge!;
+
+  static TextStyle get labelSmall => theme.textTheme.labelSmall!;
+  static TextStyle get labelMedium => theme.textTheme.labelMedium!;
+  static TextStyle get labelLarge => theme.textTheme.labelLarge!;
+
+  static TextStyle get titleSmall => theme.textTheme.titleSmall!;
+  static TextStyle get titleMedium => theme.textTheme.titleMedium!;
+  static TextStyle get titleLarge => theme.textTheme.titleLarge!;
+
   // Body text style
   static TextStyle get bodyLarge16 =>
       theme.textTheme.bodyLarge!.copyWith(fontSize: 16.fSize);

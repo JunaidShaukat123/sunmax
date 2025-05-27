@@ -15,7 +15,7 @@ class SplashScreen extends GetWidget<SplashController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomImageView(
-                imagePath: ImageConstant.imgVectorStroke,
+                imagePath: ImageConstant.logo,
                 height: 56.h,
                 width: 108.h,
               ),

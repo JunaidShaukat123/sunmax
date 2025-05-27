@@ -1,4 +1,10 @@
+export 'become_controller.dart';
 export 'broadcast_controller.dart';
+export 'forgot_password_controller.dart';
 export 'language_controller.dart';
 export 'onboarding_controller.dart';
+export 'reset_password_controller.dart';
+export 'signin_controller.dart';
+export 'signup_controller.dart';
 export 'splash_controller.dart';
+export 'verification_controller.dart';

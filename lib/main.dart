@@ -14,9 +14,9 @@ Future<void> main() async {
 
   await Get.putAsync(() async => PrefUtils());
   await Get.putAsync(() async => Connectivities());
-  await Get.putAsync(() async => Connectivities());
   await Get.find<Connectivities>().onConnect();
   await Get.putAsync(() async => AppLocalization());
+  await Get.find<AppLocalization>().byPass();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((
     value,

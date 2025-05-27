@@ -161,7 +161,7 @@ class CustomTextFormField extends StatelessWidget {
   );
   InputDecoration get decoration => InputDecoration(
     hintText: hintText ?? "",
-    hintStyle: hintStyle ?? CustomTextStyles.bodySmallGray50003,
+    hintStyle: hintStyle ?? theme.textTheme.bodyMedium!,
     prefixIcon: prefix,
     prefixIconConstraints: prefixConstraints,
     suffixIcon: suffix,
@@ -169,7 +169,7 @@ class CustomTextFormField extends StatelessWidget {
     isDense: true,
     contentPadding:
         contentPadding ??
-        EdgeInsetsDirectional.symmetric(horizontal: 18.h, vertical: 20.h),
+        EdgeInsetsDirectional.symmetric(horizontal: 14.h, vertical: 16.h),
     fillColor: fillColor ?? appTheme.gray10004,
     filled: filled,
     border:
@@ -212,6 +212,7 @@ class Input extends StatelessWidget {
   final String? suffixIcon;
   final String? prefixIcon;
   final String? helperText;
+  final TextStyle? hintStyle;
   final void Function()? onTap;
   final TextStyle? labelTextStyle;
   final EdgeInsetsGeometry? padding;
@@ -242,6 +243,7 @@ class Input extends StatelessWidget {
     this.fillColor,
     this.onChanged,
     this.labelText,
+    this.hintStyle,
     this.controller,
     this.suffixIcon,
     this.helperText,
@@ -272,6 +274,7 @@ class Input extends StatelessWidget {
       hintText: hintText,
       maxLines: maxLines,
       labelText: labelText,
+      hintStyle: hintStyle,
       onChanged: onChanged,
       validator: validator,
       controller: controller,
@@ -286,7 +289,7 @@ class Input extends StatelessWidget {
           ? InkWell(
               onTap: onTapPrefix,
               child: Container(
-                margin: EdgeInsetsDirectional.fromSTEB(16.h, 16.h, 18.h, 16.h),
+                margin: EdgeInsetsDirectional.fromSTEB(14.h, 14.h, 14.h, 14.h),
                 child: CustomImageView(
                   width: 22.h,
                   height: 22.h,
@@ -300,10 +303,10 @@ class Input extends StatelessWidget {
           ? InkWell(
               onTap: onTapSuffix,
               child: Container(
-                margin: EdgeInsetsDirectional.fromSTEB(12.h, 12.h, 12.h, 12.h),
+                margin: EdgeInsetsDirectional.fromSTEB(14.h, 14.h, 14.h, 14.h),
                 child: CustomImageView(
-                  width: 14.h,
-                  height: 14.h,
+                  width: 22.h,
+                  height: 22.h,
                   fit: BoxFit.contain,
                   imagePath: suffixIcon,
                 ),
@@ -313,12 +316,14 @@ class Input extends StatelessWidget {
       borderDecoration:
           borderDecoration ?? TextFormFieldStyleHelper.outlineIndigoTL8,
       prefixConstraints: prefixIcon != null
-          ? BoxConstraints(maxHeight: 56.h)
-          : prefixConstraints ?? BoxConstraints(maxHeight: 56.h),
+          ? BoxConstraints(maxHeight: 60.h)
+          : prefixConstraints ?? BoxConstraints(maxHeight: 60.h),
       suffixConstraints: suffixIcon != null
-          ? BoxConstraints(maxHeight: 56.h)
-          : suffixConstraints ?? BoxConstraints(maxHeight: 56.h),
-      contentPadding: contentPadding ?? EdgeInsetsDirectional.all(14.h),
+          ? BoxConstraints(maxHeight: 60.h)
+          : suffixConstraints ?? BoxConstraints(maxHeight: 60.h),
+      contentPadding:
+          contentPadding ??
+          EdgeInsetsDirectional.symmetric(horizontal: 14.h, vertical: 16.h),
     );
 
     if (label != null) {
@@ -330,7 +335,7 @@ class Input extends StatelessWidget {
         children: [
           Text(
             label ?? "",
-            style: labelTextStyle ?? theme.textTheme.labelLarge,
+            style: labelTextStyle ?? CustomTextStyles.bodyMediumBluegray9000313,
           ),
           child,
         ],
