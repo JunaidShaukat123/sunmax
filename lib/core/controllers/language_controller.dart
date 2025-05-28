@@ -10,7 +10,6 @@ class LanguageController extends GetxController {
 
   final api = Get.find<Api>();
   final preference = Get.find<Preference>();
-  final connectivity = Get.find<Connectivities>();
 
   String get trace {
     final stackTrace = StackTrace.current;

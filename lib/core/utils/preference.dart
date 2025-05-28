@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '/core/app_export.dart';
 
 class Preference extends GetxController {
@@ -62,9 +64,9 @@ class Preference extends GetxController {
 
   void onRefresh() {
     props.setProcessing();
-    dynamic data = box.get('user_data');
-    if (data != null) {
-      user.value = UserData.fromJson(Map<String, dynamic>.from(data));
+    String? userData = box.get('user_data');
+    if (userData != null) {
+      user.value = UserData.fromJson(jsonDecode(userData));
       props.setNone(data: user.value);
     } else {
       user.value = UserData();
@@ -74,28 +76,18 @@ class Preference extends GetxController {
 
   Box get box => Hive.box(HiveBox.preferences);
 
-  String get version => box.get('version', defaultValue: '');
-
   String? get role => box.get('role');
-
-  String? get bearer => box.get('token');
-
-  String? get country => box.get('country', defaultValue: 'US');
-
-  String? get fcmToken => box.get('fcm_token');
-
-  bool get onboarding => box.get('onboarding', defaultValue: true);
-
-  String? get accessToken => box.get('access_token');
-
-  String? get projectId => box.get('project_id');
-
+  String? get token => box.get('token');
   String? get become => box.get('become');
-
+  String? get fcmToken => box.get('fcm_token');
+  String? get projectId => box.get('project_id');
+  String? get accessToken => box.get('access_token');
   Language get language => Language.fromBox(box.get('language'));
+  bool get onboarding => box.get('onboarding', defaultValue: true);
+  bool get rememberMe => box.get('rememberMe', defaultValue: false);
 
   bool isAuthorized({Map arguments = const {}}) {
-    if (bearer == null) {
+    if (token == null) {
       // Get.to(() => SignInScreen(), arguments: arguments);
       return false;
     } else {
@@ -220,5 +212,20 @@ class Preference extends GetxController {
             console.error(error, trace);
           },
         );
+  }
+
+  Future<void> setToken(String? token) async {
+    if (token != null) {
+      await box.put('token', token);
+      onRefresh();
+    } else {
+      await box.delete('token');
+      onRefresh();
+    }
+  }
+
+  Future<void> setUserData(UserData? data) async {
+    await box.put('user_data', jsonEncode(data?.toJson()));
+    onRefresh();
   }
 }

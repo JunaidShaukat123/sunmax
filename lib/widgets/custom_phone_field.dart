@@ -3,34 +3,51 @@ import 'package:flutter/material.dart';
 
 import '/core/app_export.dart';
 
-class Phone extends StatelessWidget {
+class PhoneNumber extends StatelessWidget {
+  final String? label;
   final String? hintText;
   final String? flagEmoji;
-  final String? countryCode;
   final String? labelText;
+  final String? suffixIcon;
+  final String? countryCode;
   final String? textInputType;
   final EdgeInsetsGeometry? padding;
+  final TextInputAction? textInputAction;
   final TextEditingController? controller;
   final void Function(Country)? onChanged;
+  final String? Function(String?)? validator;
 
-  const Phone({
+  const PhoneNumber({
     super.key,
+    this.label,
     this.padding,
     this.hintText,
     this.onChanged,
     this.flagEmoji,
     this.labelText,
+    this.validator,
     this.controller,
+    this.suffixIcon,
     this.countryCode,
     this.textInputType,
+    this.textInputAction,
   });
 
   @override
   Widget build(BuildContext context) {
     return Input(
-      hintText: hintText,
-      controller: controller,
+      label: label,
       padding: padding,
+      hintText: hintText,
+      validator: validator,
+      controller: controller,
+      suffixIcon: suffixIcon,
+      textInputAction: textInputAction,
+      textInputType: TextInputType.phone,
+      inputFormatters: [
+        PhoneNumberFormatter(),
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       prefixConstraints: BoxConstraints(minWidth: 80.h, maxWidth: 80.h),
       prefix: Padding(
         padding: EdgeInsets.only(top: 7.h),

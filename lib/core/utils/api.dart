@@ -106,13 +106,13 @@ class Api extends GetxController {
             } else if (path.startsWith('{{fcm.googleapis.com}}')) {
               options.baseUrl =
                   "https://fcm.googleapis.com/v1/projects/${preference.projectId}/messages:send";
-              if (preference.bearer != null) {
+              if (preference.token != null) {
                 headers['Content-Type'] = 'application/json; charset=UTF-8';
                 headers['Authorization'] = "Bearer ${preference.accessToken}";
               }
             } else {
-              if (preference.bearer != null) {
-                headers['Authorization'] = "Bearer ${preference.bearer}";
+              if (preference.token != null) {
+                headers['Authorization'] = "Bearer ${preference.token}";
               }
               options.baseUrl = Preference.baseUrl;
             }

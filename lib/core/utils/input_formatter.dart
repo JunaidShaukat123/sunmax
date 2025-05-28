@@ -1,15 +1,43 @@
 import '/core/app_export.dart';
 
+class PhoneNumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    // Remove all non-digit characters
+    String digitsOnly = newValue.text.replaceAll(RegExp(r'\D'), '');
+
+    // Remove leading zero(s)
+    digitsOnly = digitsOnly.replaceFirst(RegExp(r'^0+'), '');
+
+    // Limit to 10 digits
+    if (digitsOnly.length > 10) {
+      digitsOnly = digitsOnly.substring(0, 10);
+    }
+
+    return TextEditingValue(
+      text: digitsOnly,
+      selection: TextSelection.collapsed(offset: digitsOnly.length),
+    );
+  }
+}
+
 class CardInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     // Remove any non-digit characters
     final digitsOnly = newValue.text.replaceAll(RegExp(r'\D'), '');
 
     // Insert spaces every 4 digits
     final formatted = digitsOnly.replaceAllMapped(
-        RegExp(r'.{1,4}'), (match) => '${match.group(0)} ');
+      RegExp(r'.{1,4}'),
+      (match) => '${match.group(0)} ',
+    );
 
     // Trim trailing space
     final trimmed = formatted.trim();
@@ -28,7 +56,9 @@ class CardInputFormatter extends TextInputFormatter {
 class ExpiryMonthInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.isEmpty) return newValue;
 
     final int? value = int.tryParse(newValue.text);
@@ -42,7 +72,9 @@ class ExpiryMonthInputFormatter extends TextInputFormatter {
 class ExpiryYearInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     // If the new value is empty, return it as is.
     if (newValue.text.isEmpty) return newValue;
 

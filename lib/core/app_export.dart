@@ -12,7 +12,7 @@ export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:flutter_localizations/flutter_localizations.dart';
 export 'package:flutter_markdown/flutter_markdown.dart';
 export 'package:flutter_svg/flutter_svg.dart';
-export 'package:get/get.dart' hide Trans, FormData, Response, MultipartFile;
+export 'package:get/get.dart' hide FormData, Response, MultipartFile; //Trans,
 export 'package:googleapis_auth/googleapis_auth.dart'
     hide ResponseType, AccessToken;
 export 'package:hive/hive.dart';
@@ -35,5 +35,5 @@ export '/widgets/export.dart';
 export 'bindings/export.dart';
 export 'controllers/export.dart';
 export 'models/export.dart';
-export 'utils/export.dart';
 export 'services/export.dart';
+export 'utils/export.dart';

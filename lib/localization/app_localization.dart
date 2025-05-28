@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import '/core/app_export.dart';
 import 'en.dart';
 
-// class AppLocalization extends Translations {
-//   final translations = Get.find<TranslationsController>();
-
-//   @override
-//   Map<String, Map<String, String>> get keys => translations.keys;
-// }
+class AppTranslation extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {'en': en};
+}
 
 class AppLocalization extends GetxController {
   Locale? currentLocale = Get.locale ?? Locale('en');
@@ -102,40 +100,40 @@ class AppLocalization extends GetxController {
   }
 }
 
-extension Trans on String {
-  String get tr => Get.find<AppLocalization>().translate(this);
+// extension Trans on String {
+//   String get tr => Get.find<AppLocalization>().translate(this);
 
-  String trArgs([List<String> args = const []]) {
-    var translated = tr;
-    for (final arg in args) {
-      translated = translated.replaceFirst(RegExp(r'%s'), arg);
-    }
-    return translated;
-  }
+//   String trArgs([List<String> args = const []]) {
+//     var translated = tr;
+//     for (final arg in args) {
+//       translated = translated.replaceFirst(RegExp(r'%s'), arg);
+//     }
+//     return translated;
+//   }
 
-  String trParams([Map<String, String> params = const {}]) {
-    var translated = tr;
-    params.forEach((key, value) {
-      translated = translated.replaceAll('@$key', value);
-    });
-    return translated;
-  }
+//   String trParams([Map<String, String> params = const {}]) {
+//     var translated = tr;
+//     params.forEach((key, value) {
+//       translated = translated.replaceAll('@$key', value);
+//     });
+//     return translated;
+//   }
 
-  String trPlural([
-    String? pluralKey,
-    int? count,
-    List<String> args = const [],
-  ]) {
-    return (count ?? 1) == 1 ? trArgs(args) : (pluralKey ?? this).trArgs(args);
-  }
+//   String trPlural([
+//     String? pluralKey,
+//     int? count,
+//     List<String> args = const [],
+//   ]) {
+//     return (count ?? 1) == 1 ? trArgs(args) : (pluralKey ?? this).trArgs(args);
+//   }
 
-  String trPluralParams([
-    String? pluralKey,
-    int? count,
-    Map<String, String> params = const {},
-  ]) {
-    return (count ?? 1) == 1
-        ? trParams(params)
-        : (pluralKey ?? this).trParams(params);
-  }
-}
+//   String trPluralParams([
+//     String? pluralKey,
+//     int? count,
+//     Map<String, String> params = const {},
+//   ]) {
+//     return (count ?? 1) == 1
+//         ? trParams(params)
+//         : (pluralKey ?? this).trParams(params);
+//   }
+// }

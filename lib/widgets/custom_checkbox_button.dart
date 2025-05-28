@@ -2,37 +2,38 @@ import 'package:flutter/material.dart';
 
 import '../core/app_export.dart';
 
-// ignore_for_file: must_be_immutable
 class CustomCheckboxButton extends StatelessWidget {
-  CustomCheckboxButton({
+  const CustomCheckboxButton({
     super.key,
-    required this.onChange,
-    this.decoration,
-    this.alignment,
-    this.isRightCheck,
-    this.iconSize,
-    this.value,
     this.text,
+    this.value,
     this.width,
     this.padding,
-    this.textStyle,
+    this.iconSize,
     this.overflow,
+    this.alignment,
+    this.textStyle,
+    this.decoration,
+    this.isRightCheck,
     this.textAlignment,
+    this.onChange,
     this.isExpandedText = false,
   });
-  final BoxDecoration? decoration;
-  final AlignmentGeometry? alignment;
-  final bool? isRightCheck;
-  final double? iconSize;
-  bool? value;
-  final Function(bool) onChange;
+
+  final bool? value;
   final String? text;
   final double? width;
-  final EdgeInsetsGeometry? padding;
+  final double? iconSize;
+  final bool? isRightCheck;
+  final bool isExpandedText;
   final TextStyle? textStyle;
   final TextOverflow? overflow;
+  final Function(bool)? onChange;
   final TextAlign? textAlignment;
-  final bool isExpandedText;
+  final BoxDecoration? decoration;
+  final EdgeInsetsGeometry? padding;
+  final AlignmentGeometry? alignment;
+
   @override
   Widget build(BuildContext context) {
     return alignment != null
@@ -45,8 +46,7 @@ class CustomCheckboxButton extends StatelessWidget {
 
   Widget get buildCheckBoxWidget => GestureDetector(
     onTap: () {
-      value = !(value!);
-      onChange(value!);
+      onChange?.call(value!);
     },
     child: Container(
       decoration: decoration,
@@ -81,15 +81,17 @@ class CustomCheckboxButton extends StatelessWidget {
     height: iconSize ?? 18.h,
     width: iconSize ?? 18.h,
     child: Checkbox(
-      visualDensity: VisualDensity(vertical: -4, horizontal: -4),
       value: value ?? false,
-      checkColor: theme.colorScheme.primary,
+      checkColor: appTheme.primary,
       activeColor: appTheme.whiteA700,
-      side: WidgetStateBorderSide.resolveWith(
-        (states) => BorderSide(color: appTheme.whiteA700),
-      ),
+      side: WidgetStateBorderSide.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.selected)) {
+          return BorderSide(color: appTheme.primary, width: 1.h);
+        }
+        return BorderSide(color: appTheme.gray500, width: 1.h);
+      }),
       onChanged: (value) {
-        onChange(value!);
+        onChange?.call(value!);
       },
     ),
   );

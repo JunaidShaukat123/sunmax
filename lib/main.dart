@@ -16,7 +16,6 @@ Future<void> main() async {
   await Get.putAsync(() async => Connectivities());
   await Get.find<Connectivities>().onConnect();
   await Get.putAsync(() async => AppLocalization());
-  await Get.find<AppLocalization>().byPass();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((
     value,
@@ -38,6 +37,7 @@ class MyApp extends StatelessWidget {
           title: 'Sun Max',
           locale: Get.deviceLocale,
           getPages: AppRoutes.pages,
+          translations: AppTranslation(),
           debugShowCheckedModeBanner: false,
           initialBinding: InitialBindings(),
           initialRoute: AppRoutes.initialRoute,

@@ -222,6 +222,8 @@ final Map<String, String> en = {
   // "lbl_pay_confirm": "Pay & Confirm",
   "lbl_phone_number": "Phone Number",
   "msg_1234567890": "1234567890",
+  "lbl_sign_in_via_phone": "Sign in via phone",
+  "lbl_sign_in_via_email": "Sign in via email",
   // "lbl_royal_bengol": "Royal Bengol",
   // "lbl_royal_parvej": "Royal Parvej",
   // "lbl_save_changes": "Save Changes",

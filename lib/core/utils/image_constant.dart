@@ -1,6 +1,7 @@
 class ImageConstant {
   static String eye = 'assets/icons/eye.svg';
   static String logo = 'assets/icons/logo.svg';
+  static String lock = 'assets/icons/lock.svg';
   static String email = 'assets/icons/email.svg';
   static String phone = 'assets/icons/phone.svg';
   static String search = 'assets/icons/search.svg';

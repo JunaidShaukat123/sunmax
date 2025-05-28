@@ -60,13 +60,19 @@ class ThemeHelper {
         ),
       ),
       checkboxTheme: CheckboxThemeData(
+        overlayColor: WidgetStateProperty.all<Color>(appTheme.primary),
+        checkColor: WidgetStateProperty.all<Color>(appTheme.primary),
         fillColor: WidgetStateColor.resolveWith((states) {
+          if (states.contains(WidgetState.disabled)) {
+            return colorScheme.primary;
+          }
+
           if (states.contains(WidgetState.selected)) {
             return colorScheme.primary;
           }
           return Colors.transparent;
         }),
-        side: BorderSide(color: appTheme.whiteA700, width: 1),
+        side: BorderSide(color: appTheme.primary, width: 1),
         visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
       ),
       dividerTheme: DividerThemeData(

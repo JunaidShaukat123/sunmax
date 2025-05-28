@@ -61,8 +61,8 @@ class Validator {
   }
 
   static String? isPhoneNumber(String? input, {bool isRequired = true}) {
-    // xxx xxxx xxx
-    const pattern = r'^3\d{2}-\d{7}$';
+    // only allow numbers
+    const pattern = r'^\d+$';
     RegExp regExp = RegExp(pattern, caseSensitive: false);
     if (input != null && isRequired == false && input.isNotEmpty) {
       isRequired = true;
@@ -83,7 +83,7 @@ class Validator {
     }
   }
 
-  static String? email(String? input, {bool isRequired = true}) {
+  static String? isEmail(String? input, {bool isRequired = true}) {
     const pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regExp = RegExp(pattern, caseSensitive: false);
@@ -145,46 +145,7 @@ class Validator {
     return null;
   }
 
-  static String? password2(String? input, {bool isRequired = true}) {
-    String lengthPattern = r'^.{8,}$';
-    String alphaPattern = r'^(?=.*[a-zA-Z])';
-    String digitPattern = r'^(?=.*\d)';
-    String specialCharPattern = r'^(?=.*[@$!%*?&])';
-
-    // Check if password is required and non-empty
-    if (!isRequired && (input == null || input.isEmpty)) {
-      return null;
-    }
-
-    // Check if password is empty
-    if (input == null || input.isEmpty) {
-      return "please_enter_your_password".tr;
-    }
-
-    // Length validation
-    if (!RegExp(lengthPattern).hasMatch(input)) {
-      return "please_enter_your_password".tr;
-    }
-
-    // Alphabet check (should contain at least one letter)
-    if (!RegExp(alphaPattern).hasMatch(input)) {
-      return "please_enter_your_password".tr;
-    }
-
-    // Digit check (should contain at least one digit)
-    if (!RegExp(digitPattern).hasMatch(input)) {
-      return "please_enter_your_password".tr;
-    }
-
-    // Special character check (should contain at least one special character)
-    if (!RegExp(specialCharPattern).hasMatch(input)) {
-      return "please_enter_your_password".tr;
-    }
-
-    return null;
-  }
-
-  static String? confirmPassword(
+  static String? isConfirmPassword(
     String? input,
     String text, {
     bool isRequired = true,

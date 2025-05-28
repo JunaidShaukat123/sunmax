@@ -67,6 +67,7 @@ class CustomTextFormField extends StatelessWidget {
     this.inputFormatters,
     this.readOnly = false,
     this.borderDecoration,
+    this.autovalidateMode,
     this.autofocus = false,
     this.prefixConstraints,
     this.suffixConstraints,
@@ -87,7 +88,7 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? prefix;
   final Widget? suffix;
   final Widget? helper;
-  final bool? autofocus;
+  final bool autofocus;
   final String? hintText;
   final Color? fillColor;
   final bool? obscureText;
@@ -112,6 +113,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final BoxConstraints? prefixConstraints;
   final BoxConstraints? suffixConstraints;
+  final AutovalidateMode? autovalidateMode;
   final EdgeInsetsGeometry? contentPadding;
   final TextEditingController? scrollPadding;
   final FormFieldValidator<String>? validator;
@@ -130,14 +132,27 @@ class CustomTextFormField extends StatelessWidget {
   }
 
   Widget get textFormFieldWidget => Container(
-    width: width ?? double.maxFinite,
     decoration: boxDecoration,
+    width: width ?? double.maxFinite,
     child: TextFormField(
+      autocorrect: false,
+      readOnly: readOnly!,
+      focusNode: focusNode,
+      validator: validator,
+      onChanged: onChanged,
+      autofocus: autofocus,
+      controller: controller,
+      decoration: decoration,
+      maxLines: maxLines ?? 1,
+      obscureText: obscureText!,
+      keyboardType: textInputType,
+      inputFormatters: inputFormatters,
+      textInputAction: textInputAction,
+      autovalidateMode: autovalidateMode,
+      style: textStyle ?? CustomTextStyles.bodyLargeBluegray9000316,
       scrollPadding: EdgeInsets.only(
         bottom: MediaQuery.of(Get.context!).viewInsets.bottom,
       ),
-      controller: controller,
-      focusNode: focusNode,
       onTapOutside: (event) {
         if (focusNode != null) {
           focusNode?.unfocus();
@@ -145,33 +160,42 @@ class CustomTextFormField extends StatelessWidget {
           FocusManager.instance.primaryFocus?.unfocus();
         }
       },
-      autofocus: autofocus!,
-      style: textStyle ?? CustomTextStyles.bodyLargeBluegray9000316,
-      obscureText: obscureText!,
-      readOnly: readOnly!,
       onTap: () {
         onTap?.call();
       },
-      textInputAction: textInputAction,
-      keyboardType: textInputType,
-      maxLines: maxLines ?? 1,
-      decoration: decoration,
-      validator: validator,
     ),
   );
   InputDecoration get decoration => InputDecoration(
-    hintText: hintText ?? "",
-    hintStyle: hintStyle ?? theme.textTheme.bodyMedium!,
-    prefixIcon: prefix,
-    prefixIconConstraints: prefixConstraints,
-    suffixIcon: suffix,
-    suffixIconConstraints: suffixConstraints,
     isDense: true,
+    filled: filled,
+    helper: helper,
+    isCollapsed: true,
+    prefixIcon: prefix,
+    suffixIcon: suffix,
+    helperText: helperText,
+    // labelText: labelText,
+    hintText: hintText ?? "",
+    hintMaxLines: hintMaxLines,
+    helperMaxLines: helperMaxLines,
+    alignLabelWithHint: alignLabelWithHint,
+    prefixIconConstraints: prefixConstraints,
+    suffixIconConstraints: suffixConstraints,
+    fillColor: fillColor ?? appTheme.gray10004,
+    floatingLabelAlignment: floatingLabelAlignment,
+    hintStyle: hintStyle ?? theme.textTheme.bodyMedium,
+    floatingLabelBehavior: FloatingLabelBehavior.always,
+    labelStyle: labelStyle ?? theme.textTheme.bodyMedium,
+    helperStyle: helperStyle ?? theme.textTheme.bodyMedium,
+    floatingLabelStyle: floatingLabelStyle ?? theme.textTheme.bodyMedium,
+    label: Text(
+      labelText ?? "",
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: labelStyle ?? theme.textTheme.bodyMedium,
+    ),
     contentPadding:
         contentPadding ??
         EdgeInsetsDirectional.symmetric(horizontal: 14.h, vertical: 16.h),
-    fillColor: fillColor ?? appTheme.gray10004,
-    filled: filled,
     border:
         borderDecoration ??
         OutlineInputBorder(
@@ -205,29 +229,42 @@ class Input extends StatelessWidget {
   final Widget? suffix;
   final Widget? prefix;
   final double? spacing;
+  final bool autofocus;
   final Color? fillColor;
   final String? hintText;
   final bool obscureText;
   final String? labelText;
+  final int? hintMaxLines;
   final String? suffixIcon;
   final String? prefixIcon;
   final String? helperText;
   final TextStyle? hintStyle;
+  final FocusNode? focusNode;
+  final TextStyle? textStyle;
   final void Function()? onTap;
+  final TextStyle? helperStyle;
+  final bool? alignLabelWithHint;
   final TextStyle? labelTextStyle;
+  final EdgeInsets? scrollPadding;
   final EdgeInsetsGeometry? padding;
   final void Function()? onTapSuffix;
   final void Function()? onTapPrefix;
   final TextInputType? textInputType;
+  final AlignmentGeometry? alignment;
+  final BoxDecoration? boxDecoration;
   final InputBorder? borderDecoration;
+  final TextStyle? floatingLabelStyle;
   final TextInputAction? textInputAction;
   final void Function(String)? onChanged;
   final TextEditingController? controller;
   final BoxConstraints? suffixConstraints;
   final BoxConstraints? prefixConstraints;
   final EdgeInsetsGeometry? contentPadding;
+  final AutovalidateMode? autovalidateMode;
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
+  final FloatingLabelBehavior? floatingLabelBehavior;
+  final FloatingLabelAlignment? floatingLabelAlignment;
 
   const Input({
     super.key,
@@ -244,14 +281,22 @@ class Input extends StatelessWidget {
     this.onChanged,
     this.labelText,
     this.hintStyle,
+    this.focusNode,
+    this.autofocus = false,
+    this.textStyle,
+    this.alignment,
     this.controller,
     this.suffixIcon,
     this.helperText,
     this.prefixIcon,
     this.onTapSuffix,
     this.onTapPrefix,
+    this.helperStyle,
+    this.hintMaxLines,
     this.filled = true,
     this.textInputType,
+    this.boxDecoration,
+    this.scrollPadding,
     this.expand = false,
     this.contentPadding,
     this.labelTextStyle,
@@ -259,9 +304,14 @@ class Input extends StatelessWidget {
     this.inputFormatters,
     this.borderDecoration,
     this.readOnly = false,
+    this.autovalidateMode,
     this.suffixConstraints,
     this.prefixConstraints,
+    this.alignLabelWithHint,
+    this.floatingLabelStyle,
     this.obscureText = false,
+    this.floatingLabelBehavior,
+    this.floatingLabelAlignment,
   });
 
   Widget builder(BuildContext context) {
@@ -277,6 +327,10 @@ class Input extends StatelessWidget {
       hintStyle: hintStyle,
       onChanged: onChanged,
       validator: validator,
+      focusNode: focusNode,
+      alignment: alignment,
+      textStyle: textStyle,
+      autofocus: autofocus,
       controller: controller,
       helperText: helperText,
       obscureText: obscureText,
@@ -284,7 +338,12 @@ class Input extends StatelessWidget {
       textInputType: textInputType,
       textInputAction: textInputAction,
       inputFormatters: inputFormatters,
+      autovalidateMode: autovalidateMode,
+      floatingLabelStyle: floatingLabelStyle,
+      alignLabelWithHint: alignLabelWithHint,
       fillColor: fillColor ?? appTheme.gray100,
+      floatingLabelBehavior: floatingLabelBehavior,
+      floatingLabelAlignment: floatingLabelAlignment,
       prefix: prefixIcon != null
           ? InkWell(
               onTap: onTapPrefix,

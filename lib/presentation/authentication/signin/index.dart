@@ -48,46 +48,39 @@ class SignInScreen extends GetWidget<SignInController> {
                   ),
                   child: Form(
                     key: formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Obx(
-                          () => Input(
-                            validator: Validator.isPhoneNumber,
-                            suffixIcon: controller.viaEmail.value
-                                ? ImageConstant.phone
-                                : ImageConstant.email,
-                            label: controller.viaEmail.value
-                                ? "lbl_email".tr.toUpperCase()
-                                : "lbl_phone_number".tr.toUpperCase(),
-                            hintText: controller.viaEmail.value
-                                ? "msg_example_gmail_com".tr
-                                : "msg_1234567890".tr,
-                            controller: controller.emailthreeController,
-                            onTapSuffix: () {
-                              controller.viaEmail.value =
-                                  !controller.viaEmail.value;
-                            },
-                          ),
-                        ),
+                        Obx(() {
+                          String provider = controller.provider.value;
+                          if (provider == "email") {
+                            return Input(
+                              validator: Validator.isEmail,
+                              prefixIcon: ImageConstant.email,
+                              label: "lbl_email".tr.toUpperCase(),
+                              hintText: "msg_example_gmail_com".tr,
+                              controller: controller.emailController,
+                            );
+                          } else {
+                            return PhoneNumber(
+                              hintText: "msg_1234567890".tr,
+                              validator: Validator.isPhoneNumber,
+                              flagEmoji: controller.flagEmoji.value,
+                              controller: controller.phoneController,
+                              countryCode: controller.phoneCode.value,
+                              label: "lbl_phone_number".tr.toUpperCase(),
+                              onChanged: (value) {
+                                console.log(value.toJson());
+                                controller.phoneCode.value = value.phoneCode;
+                                controller.flagEmoji.value = value.flagEmoji;
+                              },
+                            );
+                          }
+                        }),
                         SizedBox(height: 24.h),
-                        Obx(
-                          () => Input(
-                            hintText: "**********".tr,
-                            validator: Validator.isPassword,
-                            suffixIcon: controller.isShowPassword.value
-                                ? ImageConstant.eye
-                                : ImageConstant.eyeOff,
-                            label: "lbl_password".tr.toUpperCase(),
-                            textInputAction: TextInputAction.done,
-                            obscureText: controller.isShowPassword.value,
-                            controller: controller.passwordtwoController,
-                            onTapSuffix: () {
-                              controller.isShowPassword.value =
-                                  !controller.isShowPassword.value;
-                            },
-                          ),
+                        Password(
+                          label: "lbl_password".tr.toUpperCase(),
+                          controller: controller.passwordController,
                         ),
                         SizedBox(height: 24.h),
                         Row(
@@ -118,13 +111,41 @@ class SignInScreen extends GetWidget<SignInController> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 28.h),
+                        SizedBox(height: 12.h),
                         CustomElevatedButton(
                           text: "lbl_sign_in".tr.toUpperCase(),
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {}
+                            if (formKey.currentState!.validate()) {
+                              controller.onSignIn(processing: true);
+                            }
                           },
                         ),
+                        SizedBox(height: 12.h),
+                        Obx(() {
+                          String provider = controller.provider.value;
+                          if (provider == "email") {
+                            return CustomElevatedButton(
+                              text: "lbl_sign_in_via_phone".tr.toUpperCase(),
+                              buttonStyle: CustomButtonStyles.outlineGray,
+                              buttonTextStyle:
+                                  CustomTextStyles.bodyLargeBluegray600,
+                              onPressed: () {
+                                controller.provider.value = "phone";
+                                controller.emailController.clear();
+                              },
+                            );
+                          }
+                          return CustomElevatedButton(
+                            text: "lbl_sign_in_via_email".tr.toUpperCase(),
+                            buttonStyle: CustomButtonStyles.outlineGray,
+                            buttonTextStyle:
+                                CustomTextStyles.bodyLargeBluegray600,
+                            onPressed: () {
+                              controller.provider.value = "email";
+                              controller.phoneController.clear();
+                            },
+                          );
+                        }),
                         SizedBox(height: 38.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
